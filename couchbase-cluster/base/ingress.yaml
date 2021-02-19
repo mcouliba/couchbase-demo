@@ -18,5 +18,5 @@ spec:
            name: cb-example
            port:
              number: 8091
-    host: couchbase.138.197.231.240.xip.io
+    host: couchbase.api.cluster-f6fa.f6fa.example.opentlc.com
 

@@ -10,7 +10,7 @@ metadata:
 spec:
   project: production
   source:
-    repoURL: https://github.com/vfarcic/couchbase-demo.git
+    repoURL: https://github.com/mcouliba/couchbase-demo.git
     targetRevision: HEAD
     path: production
   destination:
