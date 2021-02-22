@@ -20,7 +20,7 @@ export GH_ORG=mcouliba
 # cd couchbase-demo
 
 # Replace `[...]` with the base host that should be used to access the app through NGINX Ingress
-export BASE_HOST=apps.cluster-5266.5266.example.opentlc.com # e.g., $INGRESS_HOST.xip.io
+export BASE_HOST=apps.cluster-5266.5266.example.opentlc.com:80 # e.g., $INGRESS_HOST.xip.io
 
 rm -f production/couchbase-cluster.yaml
 
@@ -35,10 +35,6 @@ cat argo-cd/base/ingress.yaml \
 cat production/sealed-secrets.yaml \
     | sed -e "s@vfarcic@$GH_ORG@g" \
     | tee production/sealed-secrets.yaml
-
-cat production/argo-cd.yaml \
-    | sed -e "s@vfarcic@$GH_ORG@g" \
-    | tee production/argo-cd.yaml
 
 cat production/couchbase-operator.yaml \
     | sed -e "s@vfarcic@$GH_ORG@g" \
@@ -56,15 +52,15 @@ cat apps.yaml \
     | sed -e "s@vfarcic@$GH_ORG@g" \
     | tee apps.yaml
 
-# kubectl apply --filename sealed-secrets
+kubectl apply --filename sealed-secrets
 
-# kustomize build \
-#     argo-cd/overlays/production \
-#     | kubectl apply --filename -
+kustomize build \
+    argo-cd/overlays/production \
+    | kubectl apply --filename -
 
-# kubectl --namespace argocd \
-#     rollout status \
-#     deployment argocd-server
+kubectl --namespace argocd \
+    rollout status \
+    deployment argocd-server
 
 export PASS=$(kubectl \
     --namespace argocd \
@@ -77,7 +73,7 @@ argocd login \
     --username admin \
     --password $PASS \
     --grpc-web \
-    argo-cd.$BASE_HOST:80
+    argo-cd.$BASE_HOST
 
 argocd account update-password \
     --current-password $PASS \

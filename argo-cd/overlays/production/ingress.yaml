@@ -18,5 +18,5 @@ spec:
            name: argocd-server
            port:
              number: 443
-    host: argo-cd.apps.cluster-5266.5266.example.opentlc.com
+    host: argo-cd.apps.cluster-5266.5266.example.opentlc.com:80
 
