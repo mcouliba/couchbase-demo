@@ -18,4 +18,4 @@ spec:
            name: cb-example
            port:
              number: 8091
-
+    host: acme.com
