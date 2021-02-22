@@ -73,6 +73,7 @@ export PASS=$(kubectl \
     | base64 --decode)
 
 argocd login \
+    --plaintext \
     --insecure \
     --username admin \
     --password $PASS \
