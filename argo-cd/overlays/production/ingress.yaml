@@ -18,5 +18,4 @@ spec:
            name: argocd-server
            port:
              number: 80
-    host: argo-cd.api.cluster-f6fa.f6fa.example.opentlc.com
 

@@ -13,14 +13,14 @@
 # Fork it!
 
 # Replace `[...]` with the GitHub organization or the username
-export GH_ORG=[...]
+export GH_ORG=$1
 
-git clone https://github.com/$GH_ORG/couchbase-demo.git
+# git clone https://github.com/$GH_ORG/couchbase-demo.git
 
-cd couchbase-demo
+# cd couchbase-demo
 
 # Replace `[...]` with the base host that should be used to access the app through NGINX Ingress
-export BASE_HOST=[...] # e.g., $INGRESS_HOST.xip.io
+export BASE_HOST=$(oc whoami --show-server | sed 's$https://\(.*\):.*$\1$g')
 
 rm -f production/couchbase-cluster.yaml
 
@@ -28,17 +28,13 @@ cat production/argo-cd.yaml \
     | sed -e "s@vfarcic@$GH_ORG@g" \
     | tee production/argo-cd.yaml
 
-cat argo-cd/base/ingress.yaml \
-    | sed -e "s@acme.com@argo-cd.$BASE_HOST@g" \
-    | tee argo-cd/overlays/production/ingress.yaml
+# cat argo-cd/base/ingress.yaml \
+#     | sed -e "s@acme.com@argo-cd.$BASE_HOST@g" \
+#     | tee argo-cd/overlays/production/ingress.yaml
 
 cat production/sealed-secrets.yaml \
     | sed -e "s@vfarcic@$GH_ORG@g" \
     | tee production/sealed-secrets.yaml
-
-cat production/argo-cd.yaml \
-    | sed -e "s@vfarcic@$GH_ORG@g" \
-    | tee production/argo-cd.yaml
 
 cat production/couchbase-operator.yaml \
     | sed -e "s@vfarcic@$GH_ORG@g" \
@@ -48,11 +44,9 @@ cat orig/couchbase-cluster.yaml \
     | sed -e "s@vfarcic@$GH_ORG@g" \
     | tee orig/couchbase-cluster.yaml
 
-cat orig/couchbase-cluster-ingress.yaml \
-    | sed -e "s@acme.com@couchbase.$BASE_HOST@g" \
-    | tee couchbase-cluster/base/ingress.yaml
-    
-couchbase-cluster/base/ingress.yaml
+# cat orig/couchbase-cluster-ingress.yaml \
+#     | sed -e "s@acme.com@couchbase.$BASE_HOST@g" \
+#     | tee couchbase-cluster/base/ingress.yaml
 
 cat apps.yaml \
     | sed -e "s@vfarcic@$GH_ORG@g" \
@@ -107,44 +101,44 @@ kubectl apply --filename project.yaml
 
 kubectl apply --filename apps.yaml
 
-#############################################
-# Deploying Couchbase (and everything else) #
-#############################################
+# #############################################
+# # Deploying Couchbase (and everything else) #
+# #############################################
 
-open http://argo-cd.$BASE_HOST
+# open http://argo-cd.$BASE_HOST
 
-cat couchbase-cluster/base/cluster.yaml
+# cat couchbase-cluster/base/cluster.yaml
 
-cat couchbase-operator/base/secrets.yaml
+# cat couchbase-operator/base/secrets.yaml
 
-cat orig/couchbase-cluster.yaml
+# cat orig/couchbase-cluster.yaml
 
-cp orig/couchbase-cluster.yaml \
-    production/.
+# cp orig/couchbase-cluster.yaml \
+#     production/.
 
-git add .
+# git add .
 
-git commit -m "Cluster"
+# git commit -m "Cluster"
 
-git push
+# git push
 
-kubectl --namespace couchbase \
-    get pods
+# kubectl --namespace couchbase \
+#     get pods
 
-open http://couchbase.$BASE_HOST
+# open http://couchbase.$BASE_HOST
 
-# Show the image in the Argo CD UI
+# # Show the image in the Argo CD UI
 
-cat couchbase-cluster/base/cluster.yaml \
-    | sed -e "s@6.5.0@6.6.0@g" \
-    | tee couchbase-cluster/base/cluster.yaml
+# cat couchbase-cluster/base/cluster.yaml \
+#     | sed -e "s@6.5.0@6.6.0@g" \
+#     | tee couchbase-cluster/base/cluster.yaml
 
-git add .
+# git add .
 
-git commit -m "Upgrade"
+# git commit -m "Upgrade"
 
-git push
+# git push
 
-# Show the image in the Argo CD UI
+# # Show the image in the Argo CD UI
 
-cd ../
+# cd ../
