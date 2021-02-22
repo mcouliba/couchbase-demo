@@ -74,11 +74,10 @@ export PASS=$(kubectl \
 
 argocd login \
     --plaintext \
-    --insecure \
     --username admin \
     --password $PASS \
     --grpc-web \
-    argo-cd.$BASE_HOST
+    argo-cd.$BASE_HOST:80
 
 argocd account update-password \
     --current-password $PASS \
