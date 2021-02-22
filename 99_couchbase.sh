@@ -56,15 +56,15 @@ cat apps.yaml \
     | sed -e "s@vfarcic@$GH_ORG@g" \
     | tee apps.yaml
 
-kubectl apply --filename sealed-secrets
+# kubectl apply --filename sealed-secrets
 
-kustomize build \
-    argo-cd/overlays/production \
-    | kubectl apply --filename -
+# kustomize build \
+#     argo-cd/overlays/production \
+#     | kubectl apply --filename -
 
-kubectl --namespace argocd \
-    rollout status \
-    deployment argocd-server
+# kubectl --namespace argocd \
+#     rollout status \
+#     deployment argocd-server
 
 export PASS=$(kubectl \
     --namespace argocd \
