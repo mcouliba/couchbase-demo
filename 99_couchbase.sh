@@ -21,7 +21,7 @@ export GH_ORG=$1
 
 # Replace `[...]` with the base host that should be used to access the app through NGINX Ingress
 export BASE_HOST=$(oc whoami --show-server | sed 's@https://\(.*\):.*@\1@g')
-export ARGO_CD_HOST=argo-cd-argocd.$BASE_HOST
+export ARGO_CD_HOST=argocd-server-argocd.$BASE_HOST
 export COUCHBASE_HOST=couchbase-couchbase.$BASE_HOST
 
 rm -f production/couchbase-cluster.yaml

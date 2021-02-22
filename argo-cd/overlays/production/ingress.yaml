@@ -18,5 +18,5 @@ spec:
            name: argocd-server
            port:
              number: 80
-    host: argo-cd-argocd.api.cluster-5266.5266.example.opentlc.com
+    host: argocd-server-argocd.api.cluster-5266.5266.example.opentlc.com
 
